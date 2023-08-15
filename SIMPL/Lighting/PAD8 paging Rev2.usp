@@ -1,0 +1,334 @@
+/***********************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+***********************************************************************/
+/*
+Dealer Name: ControlWorks Consulting
+System Name: 
+System Number:
+Programmer: Bob Sutula
+Comments:  	Rev1 3-20-02
+			Rev2 1-13-03 RES:  changed page off from duration to release 
+				of trigger.  Added page_active=OFF to Main for init.
+*/
+
+/***********************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+***********************************************************************/
+#SYMBOL_NAME "PAD8 Paging Module v2"
+#HINT "Allows paging through house Crestron audio system"
+// #DEFINE_CONSTANT
+
+#HELP_BEGIN
+   This module allows temporary interruption of house music for paging through the system.
+   
+   When page trigger goes high, all rooms with Page Ena input high will switch to
+   Page_Source at Page_Vol.  Once page trigger goes low, rooms will revert
+   to their previous source and volume.  
+   
+   When paging is not currently taking place, all source,volume, and on state changes 
+   pass through.  Any room that does not have Page_Ena high will not be affected when
+   paging occurs.
+   
+#HELP_END
+
+
+DIGITAL_INPUT page_trig,rm1_page_ena,rm2_page_ena,rm3_page_ena,rm4_page_ena,rm5_page_ena;
+DIGITAL_INPUT rm6_page_ena,rm7_page_ena,rm8_page_ena,rm1_on,rm2_on,rm3_on,rm4_on,rm5_on;
+DIGITAL_INPUT rm6_on,rm7_on,rm8_on;
+
+ANALOG_INPUT page_source,rm1_source,rm2_source,rm3_source,rm4_source,rm5_source;
+ANALOG_INPUT rm6_source,rm7_source,rm8_source,rm1_vol,rm2_vol,rm3_vol,rm4_vol,rm5_vol,rm6_vol;
+ANALOG_INPUT rm7_vol,rm8_vol,rm1_pg_vol,rm2_pg_vol,rm3_pg_vol,rm4_pg_vol,rm5_pg_vol,rm6_pg_vol;
+ANALOG_INPUT rm7_pg_vol,rm8_pg_vol;
+
+DIGITAL_OUTPUT rm1_on_out,rm2_on_out,rm3_on_out,rm4_on_out,rm5_on_out,rm6_on_out;
+DIGITAL_OUTPUT rm7_on_out,rm8_on_out;
+
+ANALOG_OUTPUT rm1_source_out,rm2_source_out,rm3_source_out,rm4_source_out,rm5_source_out;
+ANALOG_OUTPUT rm6_source_out,rm7_source_out,rm8_source_out,rm1_vol_out,rm2_vol_out;
+ANALOG_OUTPUT rm3_vol_out,rm4_vol_out,rm5_vol_out,rm6_vol_out,rm7_vol_out,rm8_vol_out;
+
+
+
+
+INTEGER i,page_active,rm_on[8],rm_source[8],rm_vol[8];
+
+
+
+Function Revert()
+{                     
+	rm1_on_out = rm_on[1];
+	rm2_on_out = rm_on[2];
+	rm3_on_out = rm_on[3];
+	rm4_on_out = rm_on[4];
+	rm5_on_out = rm_on[5];
+	rm6_on_out = rm_on[6];
+	rm7_on_out = rm_on[7];
+	rm8_on_out = rm_on[8];
+	                                    
+	rm1_vol_out = rm_vol[1];                                    
+	rm2_vol_out = rm_vol[2];
+	rm3_vol_out = rm_vol[3];
+	rm4_vol_out = rm_vol[4];
+	rm5_vol_out = rm_vol[5];
+	rm6_vol_out = rm_vol[6];
+	rm7_vol_out = rm_vol[7];
+	rm8_vol_out = rm_vol[8];
+	
+	rm1_source_out = rm_source[1];
+	rm2_source_out = rm_source[2];
+	rm3_source_out = rm_source[3];
+	rm4_source_out = rm_source[4];
+	rm5_source_out = rm_source[5];
+	rm6_source_out = rm_source[6];
+	rm7_source_out = rm_source[7];
+	rm8_source_out = rm_source[8];
+}
+
+PUSH page_trig
+{  
+	CANCELALLWAIT();
+
+    page_active = ON;
+	    
+	IF(rm1_page_ena)
+	{
+    	rm1_on_out = ON;
+    	rm1_source_out = page_source;
+    	rm1_vol_out = rm1_pg_vol;
+    }	
+	IF(rm2_page_ena)
+	{
+    	rm2_on_out = ON;
+    	rm2_source_out = page_source;
+    	rm2_vol_out = rm2_pg_vol;
+    }	
+	IF(rm3_page_ena)
+	{
+    	rm3_on_out = ON;
+    	rm3_source_out = page_source;
+    	rm3_vol_out = rm3_pg_vol;
+    }	
+	IF(rm4_page_ena)
+	{
+    	rm4_on_out = ON;
+    	rm4_source_out = page_source;
+    	rm4_vol_out = rm4_pg_vol;
+    }	
+	IF(rm5_page_ena)
+	{
+    	rm5_on_out = ON;
+    	rm5_source_out = page_source;
+    	rm5_vol_out = rm5_pg_vol;
+    }	
+	IF(rm6_page_ena)
+	{
+    	rm6_on_out = ON;
+    	rm6_source_out = page_source;
+    	rm6_vol_out = rm6_pg_vol;
+    }	
+	IF(rm7_page_ena)
+	{
+    	rm7_on_out = ON;
+    	rm7_source_out = page_source;
+    	rm7_vol_out = rm7_pg_vol;
+    }	
+	IF(rm8_page_ena)
+	{
+    	rm8_on_out = ON;
+    	rm8_source_out = page_source;
+    	rm8_vol_out = rm8_pg_vol;
+    }	
+}
+
+RELEASE page_trig
+{
+   	CALL Revert();
+   	page_active = OFF;
+}
+
+
+CHANGE rm1_source
+{
+	rm_source[1] = rm1_source;
+	IF(!page_active)
+		rm1_source_out = rm1_source;
+}
+
+CHANGE rm2_source
+{
+	rm_source[2] = rm2_source;
+	IF(!page_active)
+		rm2_source_out = rm2_source;
+}
+
+CHANGE rm3_source
+{
+	rm_source[3] = rm3_source;
+	IF(!page_active)
+		rm3_source_out = rm3_source;
+}
+
+CHANGE rm4_source
+{
+	rm_source[4] = rm4_source;
+	IF(!page_active)
+		rm4_source_out = rm4_source;
+}
+
+CHANGE rm5_source
+{
+	rm_source[5] = rm5_source;
+	IF(!page_active)
+		rm5_source_out = rm5_source;
+}
+
+CHANGE rm6_source
+{
+	rm_source[6] = rm6_source;
+	IF(!page_active)
+		rm6_source_out = rm6_source;
+}
+
+CHANGE rm7_source
+{
+	rm_source[7] = rm7_source;
+	IF(!page_active)
+		rm7_source_out = rm7_source;
+}
+
+CHANGE rm8_source
+{
+	rm_source[8] = rm8_source;
+	IF(!page_active)
+		rm8_source_out = rm8_source;
+}
+
+CHANGE rm1_vol
+{
+	rm_vol[1] = rm1_vol;
+	IF(!page_active)
+		rm1_vol_out = rm1_vol;
+}                  
+
+CHANGE rm2_vol
+{
+	rm_vol[2] = rm2_vol;
+	IF(!page_active)
+		rm2_vol_out = rm2_vol;
+}                  
+
+CHANGE rm3_vol
+{
+	rm_vol[3] = rm3_vol;
+	IF(!page_active)
+		rm3_vol_out = rm3_vol;
+}                  
+
+CHANGE rm4_vol
+{
+	rm_vol[4] = rm4_vol;
+	IF(!page_active)
+		rm4_vol_out = rm4_vol;
+}                  
+
+CHANGE rm5_vol
+{
+	rm_vol[5] = rm5_vol;
+	IF(!page_active)
+		rm5_vol_out = rm5_vol;
+}                  
+
+CHANGE rm6_vol
+{
+	rm_vol[6] = rm6_vol;
+	IF(!page_active)
+		rm6_vol_out = rm6_vol;
+}                  
+
+CHANGE rm7_vol
+{
+	rm_vol[7] = rm7_vol;
+	IF(!page_active)
+		rm7_vol_out = rm7_vol;
+}                  
+
+CHANGE rm8_vol
+{
+	rm_vol[8] = rm8_vol;
+	IF(!page_active)
+		rm8_vol_out = rm8_vol;
+}                  
+
+CHANGE rm1_on
+{
+	rm_on[1] = rm1_on;
+	IF(!page_active)
+		rm1_on_out = rm1_on;
+}	
+
+CHANGE rm2_on
+{
+	rm_on[2] = rm2_on;
+	IF(!page_active)
+		rm2_on_out = rm2_on;
+}	
+
+CHANGE rm3_on
+{
+	rm_on[3] = rm3_on;
+	IF(!page_active)
+		rm3_on_out = rm3_on;
+}	
+
+CHANGE rm4_on
+{
+	rm_on[4] = rm4_on;
+	IF(!page_active)
+		rm4_on_out = rm4_on;
+}	
+
+CHANGE rm5_on
+{
+	rm_on[5] = rm5_on;
+	IF(!page_active)
+		rm5_on_out = rm5_on;
+}	
+
+CHANGE rm6_on
+{
+	rm_on[6] = rm6_on;
+	IF(!page_active)
+		rm6_on_out = rm6_on;
+}	
+
+CHANGE rm7_on
+{
+	rm_on[7] = rm7_on;
+	IF(!page_active)
+		rm7_on_out = rm7_on;
+}	
+
+CHANGE rm8_on
+{
+	rm_on[8] = rm8_on;
+	IF(!page_active)
+		rm8_on_out = rm8_on;
+}	
+
+
+Function Main()
+{   
+	FOR(i = 1 to 8)
+	{
+		rm_source[i] = 0;
+		rm_vol[i] = 0;
+		rm_on[i] = OFF;
+	}		
+	
+	page_active = OFF;
+}
+
+

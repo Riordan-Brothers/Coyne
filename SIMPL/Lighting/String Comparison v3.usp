@@ -1,0 +1,57 @@
+/*
+Dealer Name:ControlWorks Consulting, LLC
+Programmer: tom@controlworks.com
+Comments: For use with ChangeIP.com module
+*/  
+
+#SYMBOL_NAME "String Comparison v3"
+#CATEGORY "10" // Serial
+#DEFAULT_VOLATILE
+
+#HELP_BEGIN
+	Feed last successful update to "last_successful_string$"
+    Feed new IP address to "string_to_compare$"
+
+	If string received is different from last string, CHANGED goes high for 1s.
+    Note that this module is currently setup for a string length of 25 characters.
+
+    If string is received is same as last string, NOT_CHANGED goes high for 1s.
+    
+	support@thecontrolworks.com
+	440.729.4640
+	(c) 2003 ControlWorks Consulting, LLC	
+#HELP_END
+
+STRING_INPUT string_to_compare$[50];
+STRING_INPUT last_successful_string$[50];
+ 
+DIGITAL_OUTPUT changed, not_changed;
+STRING new_string$[50],old_string$[50];
+
+CHANGE string_to_compare$
+{
+	old_string$ = last_successful_string$;
+	new_string$ = string_to_compare$;
+	IF(old_string$ <> new_string$)
+		{
+		changed = 1;
+		not_changed = 0;
+        delay(100);
+		changed = 0;
+		}
+	ELSE
+		{
+		changed = 0;
+		not_changed = 1;
+        delay(100);
+		not_changed = 0;
+		}
+}
+
+Function Main()  // set bogus string on reboot (force update)
+	{
+	wait(3000)
+		{
+		last_successful_string$="Processor Rebooted";
+		}
+	}

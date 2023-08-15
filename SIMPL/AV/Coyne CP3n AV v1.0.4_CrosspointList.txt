@@ -1,0 +1,28 @@
+Crosspoint listing for C:\Crestron\Archived Projects\Coyne\SIMPL\AV\Coyne CP3n AV v1.0.4.SMW
+
+Note:  Crosspoint symbols with EquipID or ControlID set to 0d are not routeable.
+
+Equipment Crosspoint Routing.                                                                       EquipID
+===========================================================================================================
+S-3.4.1.1                                                                                           1
+S-3.4.1.2                                                                                           2
+S-3.4.1.3                                                                                           3
+S-3.4.1.4                                                                                           4
+S-3.4.1.5                                                                                           5
+S-3.4.1.6                                                                                           6
+S-3.4.1.7                                                                                           7
+S-3.4.1.8                                                                                           8
+S-3.4.1.9                                                                                           9
+S-3.4.1.10                                                                                          10
+S-3.4.1.11                                                                                          11
+S-3.4.1.12                                                                                          12
+
+Control Crosspoint Routing.                                                                         ControlID
+=============================================================================================================
+S-3.4.2.1.1                                                                                         1
+S-3.4.2.2.1                                                                                         2
+S-3.4.2.3.1                                                                                         3
+S-3.4.2.4.1                                                                                         4
+S-3.4.2.5.1                                                                                         5
+S-3.4.2.6.1                                                                                         6
+

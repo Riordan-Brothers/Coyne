@@ -1,0 +1,338 @@
+/*
+** Dealer Name:      ControlWorks Consulting www.controlworks.com
+** Module Name:      Base64 Encode Engine v1.usp
+** Programmer:       tom@controlworks.com 440.729.4640
+** Revision History: 
+**
+** v1 tom@controlworks.com 2004.03.31
+**  - initial build
+**
+** Based in part on b64.c http://base64.sourceforge.net/
+** C Programmer: Bob Trower 2001.08.04
+** Used in accordance with original license agreement:
+** 
+** 				Copyright (c) 2001 Bob Trower, Trantor Standard Systems Inc.
+**
+**                Permission is hereby granted, free of charge, to any person
+**                obtaining a copy of this software and associated
+**                documentation files (the "Software"), to deal in the
+**                Software without restriction, including without limitation
+**                the rights to use, copy, modify, merge, publish, distribute,
+**                sublicense, and/or sell copies of the Software, and to
+**                permit persons to whom the Software is furnished to do so,
+**                subject to the following conditions:
+**
+**                The above copyright notice and this permission notice shall
+**                be included in all copies or substantial portions of the
+**                Software.
+**
+**                THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+**                KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+**                WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+**                PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+**                OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+**                OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+**                OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+**                SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**
+*/
+
+/* Compiler Directives */
+
+#SYMBOL_NAME "Base64 Encode Engine"
+#HINT "Engine for Base 64 Encoding"
+#CATEGORY "10" // Serial
+#DEFAULT_VOLATILE
+
+#HELP_BEGIN
+   This module coverts from ASCII to RFC1113 Base64 Encoding.
+
+   What you feed to acsii_in$ comes out base64_out$ as base64.
+ 
+   This is used in quasi-secure website authentication, where it is desired to obscure 
+   plain text.  It is also used for MIME-encoded email transmission.
+   
+   This is not encryption (there is no key) and should not be viewed as such.
+   
+   tom@controlworks.com
+   440.729.4640
+
+   (c) 2004 ControlWorks Consulting, LLC
+   All rights reserved.
+#HELP_END
+
+BUFFER_INPUT ascii_in$[255];
+
+STRING_OUTPUT base64_out$; 
+
+INTEGER cb64[64]; // translation table for enconding as described in RFC1113
+// INTEGER cd64[81]; // translation table for decoding as implied by RFC1113 (commented out as this module encodes only)
+STRING block_to_encode[3];    // three 8-bit binaries just itching to become four 6-bit binaries
+STRING block_just_encoded[10]; // four brand spankin' new 6-bit binaries (converted, no doubt, from block_to_encode)
+
+string_function encodeblock(string block_to_encode)           // let's show these three 8-bit binaries a good time
+{
+	integer bte1,bte2,bte3,bte1w,bte2w,bte3w,bte4w,btelen;    // local variables for each of the three & work variables
+	btelen = len(block_to_encode);                            // just how long is this block?  are we being shortchanged here?
+	cswitch(btelen)                                           
+	{
+		case(3):                                              // this block is three characters long
+		{
+			bte1 = getc(block_to_encode);                     // populate bte* variables
+			bte2 = getc(block_to_encode);                            
+			bte3 = getc(block_to_encode);
+			break;
+		}
+		case(2):                                              // this block is two characters long
+		{
+			bte1 = getc(block_to_encode);
+			bte2 = getc(block_to_encode);
+			bte3 = 0x00;
+			break;
+		}
+		case(1):                                              // this block is one character long
+		{
+			bte1 = getc(block_to_encode);
+			bte2 = 0x00;
+			bte3 = 0x00;
+			break;
+		}
+		case(0):                                              // this block is empty
+		{
+			bte1 = 0x00;
+			bte2 = 0x00;
+			bte3 = 0x00;
+			print("base64: function encodeblock fed string of zero length\n");
+			break;
+		}
+		default:                                                        // unexpected string length
+		{
+			print("base64: function encodeblock fed string of unexpected length%d\n", btelen);
+			break;
+		}
+	}
+
+    bte1w = cb64[(bte1 >>2)];                                           // take first 6 bits of first octet for first sextet
+	bte2w = cb64[(((bte1 & 0x03) << 4) | ((bte2 & 0xF0) >> 4))];        // take last 2 bits of first octet and first 4 bits of second octet for second sextet
+
+	if(btelen > 1)
+		bte3w = cb64[(((bte2 & 0x0F) << 2) | ((bte3 & 0xC0) >> 6))];    // take the last 4 bits of the second octet and the first 2 bits of the third octect for third sextet
+	else
+		bte3w = 0x3D;                                                   // character '=' to indicate padding
+
+	if(btelen > 2)
+		bte4w = cb64[(bte3 & 0x3F)];                                    // take the final 6 bits of the third octet to form the fourth and final sextet 	
+	else
+		bte4w = 0x3D;                                                   // character '=' to indicate padding
+
+	block_just_encoded = chr(bte1w) + chr(bte2w) + chr(bte3w) + chr(bte4w);  // string em out   
+	return((block_just_encoded));                             
+}
+
+CHANGE ascii_in$
+{
+	integer ai1,ai2,ai3;						// local variable definition
+	string send_block$[3],base64_out_temp$[512];// local variable definition 
+	base64_out_temp$ = "";						// start with a clean slate
+    while((len(ascii_in$)) <> 0)
+	{
+		cswitch(len(ascii_in$))
+		{
+			case(3):			   				// only three characters left
+			{
+				ai1 = getc(ascii_in$);
+				ai2 = getc(ascii_in$);
+				ai3 = getc(ascii_in$);
+				send_block$ = chr(ai1) + chr(ai2) + chr(ai3);
+				base64_out_temp$ = base64_out_temp$ + encodeblock(send_block$);	// add results of 
+				base64_out$ = base64_out_temp$;		// send temp string
+				base64_out_temp$ = "";				// clear temp string
+				break;
+			}
+			case(2):							// only two characters left
+			{
+				ai1 = getc(ascii_in$);
+				ai2 = getc(ascii_in$);
+				send_block$ = chr(ai1) + chr(ai2);	
+				base64_out_temp$ = base64_out_temp$ + encodeblock(send_block$);
+				base64_out$ = base64_out_temp$;		// send temp string
+				base64_out_temp$ = "";				// clear temp string
+				break;
+			}
+			case(1):							// only one character left
+			{
+				ai1 = getc(ascii_in$);
+				send_block$ = chr(ai1);
+				base64_out_temp$ = base64_out_temp$ + encodeblock(send_block$);
+				base64_out$ = base64_out_temp$;		// send temp string
+				base64_out_temp$ = "";				// clear temp string
+				break;
+			}
+			default:							// greater than three characters left
+			{
+				ai1 = getc(ascii_in$);
+				ai2 = getc(ascii_in$);
+				ai3 = getc(ascii_in$);
+				send_block$ = chr(ai1) + chr(ai2) + chr(ai3);
+				base64_out_temp$ = base64_out_temp$ + encodeblock(send_block$);
+				break;
+			}
+		}
+	}
+}
+
+Function Main() // run on startup
+{
+/* Populate cb64 (translation table for encoding per RFC1113) */
+	cb64[0]  = 0x41; // A
+	cb64[1]  = 0x42; // B
+	cb64[2]  = 0x43; // C
+	cb64[3]  = 0x44; // D
+	cb64[4]  = 0x45; // E
+	cb64[5]  = 0x46; // F
+	cb64[6]  = 0x47; // G
+	cb64[7]  = 0x48; // H
+	cb64[8]  = 0x49; // I
+	cb64[9]  = 0x4A; // J
+	cb64[10] = 0x4B; // K
+	cb64[11] = 0x4C; // L
+	cb64[12] = 0x4D; // M
+	cb64[13] = 0x4E; // N
+	cb64[14] = 0x4F; // O
+	cb64[15] = 0x50; // P
+	cb64[16] = 0x51; // Q
+	cb64[17] = 0x52; // R
+	cb64[18] = 0x53; // S
+	cb64[19] = 0x54; // T
+	cb64[20] = 0x55; // U
+	cb64[21] = 0x56; // V
+	cb64[22] = 0x57; // W
+	cb64[23] = 0x58; // X
+	cb64[24] = 0x59; // Y
+	cb64[25] = 0x5A; // Z
+	cb64[26] = 0x61; // a
+	cb64[27] = 0x62; // b
+	cb64[28] = 0x63; // c
+	cb64[29] = 0x64; // d
+	cb64[30] = 0x65; // e
+	cb64[31] = 0x66; // f
+	cb64[32] = 0x67; // g
+	cb64[33] = 0x68; // h
+	cb64[34] = 0x69; // i
+	cb64[35] = 0x6A; // j
+	cb64[36] = 0x6B; // k
+	cb64[37] = 0x6C; // l
+	cb64[38] = 0x6D; // m
+	cb64[39] = 0x6E; // n
+	cb64[40] = 0x6F; // o
+	cb64[41] = 0x70; // p
+	cb64[42] = 0x71; // q
+	cb64[43] = 0x72; // r
+	cb64[44] = 0x73; // s
+	cb64[45] = 0x74; // t
+	cb64[46] = 0x75; // u
+	cb64[47] = 0x76; // v
+	cb64[48] = 0x77; // w
+	cb64[49] = 0x78; // x
+	cb64[50] = 0x79; // y
+	cb64[51] = 0x7A; // z
+	cb64[52] = 0x30; // 0
+	cb64[53] = 0x31; // 1
+	cb64[54] = 0x32; // 2
+	cb64[55] = 0x33; // 3
+	cb64[56] = 0x34; // 4
+	cb64[57] = 0x35; // 5
+	cb64[58] = 0x36; // 6
+	cb64[59] = 0x37; // 7
+	cb64[60] = 0x38; // 8
+	cb64[61] = 0x39; // 9
+	cb64[62] = 0x2B; // +
+	cb64[63] = 0x2F; // /
+
+/* Populate cd64 (translation table for decoding per RFC1113) */
+/* Commented out as this module is for encoding only */
+
+/*
+	cd64[0]  = 0x7C; // |
+	cd64[1]  = 0x24; // $
+	cd64[2]  = 0x24; // $
+	cd64[3]  = 0x24; // $
+	cd64[4]  = 0x7D; // }
+    cd64[5]  = 0x72; // r
+    cd64[6]  = 0x73; // s
+    cd64[7]  = 0x74; // t
+    cd64[8]  = 0x75; // u
+    cd64[9]  = 0x76; // v
+    cd64[10] = 0x77; // w
+    cd64[11] = 0x78; // x
+    cd64[12] = 0x79; // y
+    cd64[13] = 0x7A; // z
+    cd64[14] = 0x7B; // {
+    cd64[15] = 0x24; // $
+    cd64[16] = 0x24; // $
+    cd64[17] = 0x24; // $
+    cd64[18] = 0x24; // $
+    cd64[19] = 0x24; // $
+    cd64[20] = 0x24; // $
+    cd64[21] = 0x24; // $
+    cd64[22] = 0x3E; // >
+    cd64[23] = 0x3F; // ?
+    cd64[24] = 0x40; // @
+    cd64[25] = 0x41; // A
+    cd64[26] = 0x42; // B
+    cd64[27] = 0x43; // C
+    cd64[28] = 0x44; // D
+    cd64[29] = 0x45; // E
+    cd64[30] = 0x46; // F
+    cd64[31] = 0x47; // G
+    cd64[32] = 0x48; // H
+    cd64[33] = 0x49; // I
+    cd64[34] = 0x4A; // J
+    cd64[35] = 0x4B; // K
+    cd64[36] = 0x4C; // L
+    cd64[37] = 0x4D; // M
+    cd64[38] = 0x4E; // N
+    cd64[39] = 0x4F; // O
+    cd64[40] = 0x50; // P
+    cd64[41] = 0x51; // Q
+    cd64[42] = 0x52; // R
+    cd64[43] = 0x53; // S
+    cd64[44] = 0x54; // T
+    cd64[45] = 0x55; // U
+    cd64[46] = 0x56; // V
+    cd64[47] = 0x57; // W
+    cd64[48] = 0x24; // $
+    cd64[49] = 0x24; // $
+    cd64[50] = 0x24; // $
+    cd64[51] = 0x24; // $
+    cd64[52] = 0x24; // $
+    cd64[53] = 0x24; // $
+    cd64[54] = 0x58; // X
+    cd64[55] = 0x59; // Y
+    cd64[56] = 0x5A; // Z
+    cd64[57] = 0x5B; // [
+    cd64[58] = 0x5C; // \
+    cd64[59] = 0x5C; // \
+    cd64[60] = 0x5D; // ]
+    cd64[61] = 0x5E; // ^
+    cd64[62] = 0x5F; // _
+    cd64[63] = 0x60; // `
+    cd64[64] = 0x61; // a
+    cd64[65] = 0x62; // b
+    cd64[66] = 0x63; // c
+    cd64[67] = 0x64; // d
+    cd64[68] = 0x65; // e
+    cd64[69] = 0x66; // f
+    cd64[70] = 0x67; // g
+    cd64[71] = 0x68; // h
+    cd64[72] = 0x69; // i
+    cd64[73] = 0x6A; // j
+    cd64[74] = 0x6B; // k
+    cd64[75] = 0x6C; // l
+    cd64[76] = 0x6D; // m
+    cd64[77] = 0x6E; // n
+    cd64[78] = 0x6F; // o
+    cd64[79] = 0x70; // p
+    cd64[80] = 0x71; // q
+*/
+}

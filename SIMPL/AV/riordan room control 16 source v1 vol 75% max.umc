@@ -1,0 +1,1228 @@
+[
+Version=1
+]
+[
+ObjTp=FSgntr
+Sgntr=UserMacro
+RelVrs=2.06.20
+IntStrVrs=2
+MinSMWVrs=0
+MinTIOVrs=0
+SavedBy=SMW2.06.20
+]
+[
+ObjTp=Hd
+S0Nd=1
+S1Nd=2
+SLNd=3
+PrNm=riordan room control 16 source v1 vol 75% max.umc
+CmVr=1.00.34
+DbVr=17.6.2
+OpVr=Version 5.10.11-x   02/29/00
+PgmNm=Crestron Electronics
+CltNm=Implements logic to control the CNX-PAD8 with the CN-WP12F
+McNm=riordan room control 8 source v1 vol 75% max
+SmVr=371
+DvVr=371
+TpN1=1
+TpN2=2
+TpN3=3
+TpN4=4
+TpN5=5
+APg=1
+Cmn1=MODULE NAME: CH Audio Dist. ROOM Control v2.2 (cm)\\CATEGORY: CrestronHome\\
+Cmn2=\\VERSION: 2.2\\\\SUMMARY: Basic control of a "room" in a CrestronHome||1
+Cmn3=Audio Distribution system\\\\MODULE DESCRIPTION:\\This module serves||1
+Cmn4=as the "heart" of the Crestron Home series of logic modules. Essentially,\\
+Cmn5=this Room Control provides full control of a single output channel||1
+Cmn6=on a CNX-PAD8, including\\source selection, sleep mode, and room||1
+Cmn7=on and off. Unlike version 1, this module does assume\\that you||1
+Cmn8=are using any particular style of user interface. Thus you may need||1
+Cmn9=to use an \\addition module which is designed to interface between||1
+Cmn10=the user-interface and the Room\\Control module.\\\\For a full description||1
+Cmn11=of the behavior of the CrestronHome standard modules, please see||1
+Cmn12=the\\document "CrestronHome Prog-User Guide.doc" on the Crestron||1
+Cmn13=website.\\\\CRESTRON HARDWARE REQUIRED: CNX-series or ST-CP control||1
+Cmn14=processor, CNX-PAD8, user-interface\\\\INPUT DESCRIPTIONS: \\\\Name||1
+Cmn15=||BType Description\\----------------------------
+Cmn16=------------\\source_x_select         D       Select source x on||1
+Cmn17=the CNX-PAD8. Note that this functionality differs\\||<
+Cmn18=||Dfrom version 1 in that each signal is tied directly||1
+Cmn19=to input 'x', \\                                as opposed to specifying||1
+Cmn20=the input number as a parameter.\\room_on/off             D||5
+Cmn21=||2Toggles room on/off. See "room_on" and "room_off" signals for||1
+Cmn22=more\\                                details.\\room_on	||8
+Cmn23=||8D       Turns the room on. This has the effect of switching||1
+Cmn24=the room to its\\                                last used input||1
+Cmn25=and ramping the volume to the "startup volume" level.\\||9
+Cmn26=||GConnect this signal directly to a button||1
+Cmn27=(e.g. on a touchpanel) or\\                                from||1
+Cmn28=the appropriate "interface module" (e.g. 12-button Keypad Interface).
+Cmn29=\\room_off	        D	Turns the room off. This ramps the volume down||1
+Cmn30=to zero and then sets\\				the room's input to zero. Connect this||1
+Cmn31=signal directly to a button \\				(e.g. on a touchpanel) or from||1
+Cmn32=the appropriate "interface module" \\				(e.g. 12-button Keypad||1
+Cmn33=Interface).\\sleep_mode_on/off       D       Toggles sleep mode||1
+Cmn34=on/off. When in this mode, the room will shut off\\||=
+Cmn35=||Cautomatically after a prescribed amount of time||1
+Cmn36=has elapsed (see\\                                "Parameter Descriptions"||1
+Cmn37=below). Once a room is in sleep mode, it can\\||B
+Cmn38=||>be cancelled either by a press of this input, or of||1
+Cmn39=the "sleep_mode_off"\\                                input.\\sleep_mode_on||1
+Cmn40=||:D       Turns on sleep mode. This can be cancelled with||1
+Cmn41=the "sleep_mode_on/off"\\                                or "sleep_mode_off"||1
+Cmn42=inputs.\\sleep_mode_off	        D       Cancels sleep mode.\\mute_btn||1
+Cmn43=||:	D	Toggles the room mute. Connect this input directly||1
+Cmn44=to a button press,\\	                        or to an output of||1
+Cmn45=the appropriate "interface module" (e.g. 12-button\\||<
+Cmn46=||DKeypad Interface).\\vol_up	D	Raises the room||1
+Cmn47=volume.\\vol_down                D       Lowers the room volume.
+Cmn48=\\source_control_override D       Gives this room control of the||1
+Cmn49=selected source, even though another\\||J
+Cmn50=||6room previously had exclusive control. Note that this module||1
+Cmn51=does\\                                not care whether or not its||1
+Cmn52=room should be allowed to do this.\\||L
+Cmn53=||4It is up to the programmer to prevent this input from going||1
+Cmn54=high if\\                                the current room should||1
+Cmn55=not be allowed control override capability.\\startup_volume_level||1
+Cmn56=||3A       An analog signal which contains the startup volume level.
+Cmn57=||1When a room\\                                is turned on, its||1
+Cmn58=volume will ramp up to the level specified by this\\||<
+Cmn59=||Dsignal. Connect to the output of the "ROOM Setup"||1
+Cmn60=module.\\\\OUTPUT DESCRIPTIONS: \\\\Name				Type	Description\\--
+Cmn61=-------------------------------\\source_x_select_fb      D||6
+Cmn62=||1Feedback signals for the source select buttons. For touchpanels,||1
+Cmn63=\\				connect these signals directly to the button feedback. For||1
+Cmn64=keypads,\\				connect to the input of the appropriate "INTERFACE"||1
+Cmn65=module (e.g.\\				INTERFACE CN-WP12F).\\room_on_fb||>
+Cmn66=D       Signal that is high when the room is in the on state. This||1
+Cmn67=signal\\				serves as button feedback as well as inputs to many||1
+Cmn68=of the CNHome\\                                modules. In addition,||1
+Cmn69=connect this signal to the appropriate "led"\\				input on the CNX-
+Cmn70=PAD8. This causes the "Room" LED on the front of\\				the unit to||1
+Cmn71=illuminate when the room is on.\\room_off_fb         	D	Signal that||1
+Cmn72=is high when the room is in the off state.\\sleep_mode_on_fb	D	Signal||1
+Cmn73=that is high while the room is in sleep mode. This can serve\\		
+Cmn74=as feedback for a sleep button, or as an input into the Keypad\\
+Cmn75=Interface module (used to generate blinking feedback on the on/off\\
+Cmn76=button).\\mute_fb            	D	Signal that is high when the room||1
+Cmn77=is muted.\\volume_level		A	The current volume level in the room.
+Cmn78=||1Connect to the appropriate\\                                "volume"||1
+Cmn79=input on the CNX-PAD8. Also can be used for feedback to a\\				device||1
+Cmn80=that can display an analog level (e.g. a touchpanel).\\					\\PARAMETER||1
+Cmn81=DESCRIPTIONS: \\\\Name Type	Description\\-----------------------
+Cmn82=-------------------\\"sleep time"		TIME	The sleep timer length,||1
+Cmn83=in seconds. Note that SIMPL allows the use\\				of a "dotted time||1
+Cmn84=notation." In this case, a decimal point\\				separates hours, minutes,||1
+Cmn85=seconds, and hundredths of seconds. Thus,\\				1 hour can be expressed||1
+Cmn86=as 3600s or 1.00.00.00s. Note that the\\		                inclusion||1
+Cmn87=of the hundredths of seconds is required.\\						\\\\OPS USED FOR||1
+Cmn88=TESTING: 5.10.11x\\\\COMPILER USED FOR TESTING: 1.00.34\\\\SAMPLE||1
+Cmn89=PROGRAM:\\\\REVISION HISTORY:\\\\====2.1.1====\\ -Added logic to||1
+Cmn90=prevent runaway logic solution on the 2-Series Control systems.||1
+Cmn91=Solution\\  was to add a "single-wave pulse" to the source control||1
+Cmn92=override button.\\ -Added Interlock before Analog Initialize to||1
+Cmn93=prevent the same source value being repropagated.\\  This was due||1
+Cmn94=to a change in ABUFFER behavior introduced in the 2-Series. A future||1
+Cmn95=ops version\\  should revert to the old behavior.\\\\====2.1====\\
+Cmn96=||1-Added "room_on/off" input, which is useful for room control via||1
+Cmn97=1-way wireless remotes\\  (e.g. ST-1550C).\\\\====2.0====\\ -Nearly||1
+Cmn98=a complete rewrite to allow control via any type of user-interface.
+Cmn99=||1All logic\\  specific to various interfaces has been transferred||1
+Cmn100=to the appropriate "INTERFACE" module.\\\\====1.0====\\ -Initial||1
+Cmn101=release, tailored for the CNWP-12F keypad
+]
+[
+ObjTp=Bk
+Nm1=\
+Sx1=0
+Sy1=0
+Mx1=0
+]
+[
+ObjTp=Bw
+H=1
+Lx=0
+Ly=335
+Rx=1346
+Ry=670
+Xm=-1
+Ym=-1
+SH=6
+Z=100
+Ht=3
+Hi=1
+]
+[
+ObjTp=Bw
+H=1
+Lx=0
+Ly=0
+Rx=1346
+Ry=335
+Xm=-1
+Ym=-1
+SH=15
+Z=100
+P=179
+Ht=4
+Hi=16
+]
+[
+ObjTp=Bw
+H=1
+Lx=0
+Ly=670
+Rx=1346
+Ry=1005
+Xm=-1
+Ym=-1
+SH=33
+Z=100
+Ht=3
+Hi=17
+]
+[
+ObjTp=Symbol
+Name=riordan room control 16 source v1 vol 75% max
+Code=1
+SmplCName=riordan room control 16 source v1 vol 75% max.umc
+Smpl-C=3
+CompilerTimePrecision=Single_Or_Double_Precision
+Exclusions=1,19,20,21,88,89,167,168,179,216,225,248,249,266,302,305,
+Hint=Implements logic to control the CNX-PAD8 with the CN-WP12F
+SMWRev=0
+TIORev=0
+HelpID=1055
+APg=1
+NumFixedInputs=24
+NumFixedOutputs=21
+MinVariableInputs=0
+MinVariableInputsList2=0
+MinVariableInputsList3=0
+MinVariableOutputs=0
+MinVariableOutputsList2=0
+MinVariableOutputsList3=0
+MinVariableParams=0
+SymbolTree=32
+InputSigType1=Digital
+InputSigType2=Digital
+InputSigType3=Digital
+InputSigType4=Digital
+InputSigType5=Digital
+InputSigType6=Digital
+InputSigType7=Digital
+InputSigType8=Digital
+InputSigType9=Digital
+InputSigType10=Digital
+InputSigType11=Digital
+InputSigType12=Digital
+InputSigType13=Digital
+InputSigType14=Digital
+InputSigType15=Digital
+InputSigType16=Digital
+InputSigType17=Digital
+InputSigType18=Digital
+InputSigType19=Digital
+InputSigType20=Digital
+InputSigType21=Digital
+InputSigType22=Digital
+InputSigType23=Digital
+InputSigType24=Analog
+OutputSigType1=Digital
+OutputSigType2=Digital
+OutputSigType3=Digital
+OutputSigType4=Digital
+OutputSigType5=Digital
+OutputSigType6=Digital
+OutputSigType7=Digital
+OutputSigType8=Digital
+OutputSigType9=Digital
+OutputSigType10=Digital
+OutputSigType11=Digital
+OutputSigType12=Digital
+OutputSigType13=Digital
+OutputSigType14=Digital
+OutputSigType15=Digital
+OutputSigType16=Digital
+OutputSigType17=Digital
+OutputSigType18=Digital
+OutputSigType19=Digital
+OutputSigType20=Analog
+ParamSigType1=Time
+InputCue1=source_1_select
+InputCue2=source_2_select
+InputCue3=source_3_select
+InputCue4=source_4_select
+InputCue5=source_5_select
+InputCue6=source_6_select
+InputCue7=source_7_select
+InputCue8=source_8_select
+InputCue9=source_9_select
+InputCue10=source_10_select
+InputCue11=source_11_select
+InputCue12=source_12_select
+InputCue13=source_13_select
+InputCue14=source_14_select
+InputCue15=source_15_select
+InputCue16=source_16_select
+InputCue17=room_on/off
+InputCue18=room_on
+InputCue19=room_off
+InputCue20=mute
+InputCue21=vol_up
+InputCue22=vol_down
+InputCue23=source_control_override
+InputCue24=startup_volume_level
+OutputCue1=source_1_select_fb
+OutputCue2=source_2_select_fb
+OutputCue3=source_3_select_fb
+OutputCue4=source_4_select_fb
+OutputCue5=source_5_select_fb
+OutputCue6=source_6_select_fb
+OutputCue7=source_7_select_fb
+OutputCue8=source_8_select_fb
+OutputCue9=source_9_select_fb
+OutputCue10=source_10_select_fb
+OutputCue11=source_11_select_fb
+OutputCue12=source_12_select_fb
+OutputCue13=source_13_select_fb
+OutputCue14=source_14_select_fb
+OutputCue15=source_15_select_fb
+OutputCue16=source_16_select_fb
+OutputCue17=room_on_fb
+OutputCue18=room_off_fb
+OutputCue19=mute_fb
+OutputCue20=volume_level
+OutputCue21=switcher_input
+FileName=riordan room control 16 source v1 vol 75% max.umc
+]
+[
+ObjTp=Sm
+H=1
+SmC=157
+Nm=Central Control Modules
+CF=2
+n1I=1
+n1O=1
+mI=1
+mO=1
+tO=1
+mP=1
+P1=
+]
+[
+ObjTp=Sm
+H=2
+SmC=157
+Nm=Network Modules
+CF=2
+n1I=1
+n1O=1
+mI=1
+mO=1
+tO=1
+mP=1
+P1=
+]
+[
+ObjTp=Sm
+H=3
+SmC=157
+Nm=Ethernet
+CF=2
+n1I=1
+n1O=1
+mI=1
+mO=1
+tO=1
+mP=1
+P1=
+]
+[
+ObjTp=Sm
+H=4
+SmC=156
+Nm=Logic
+CF=2
+mC=3
+C1=16
+C2=18
+C3=24
+]
+[
+ObjTp=Sm
+H=5
+SmC=157
+Nm=DefineArguments
+CF=2
+n1I=1
+n1O=1
+mC=1
+C1=6
+mI=1
+mO=1
+tO=1
+mP=1
+P1=
+]
+[
+ObjTp=Sm
+H=6
+SmC=55
+PrH=5
+CF=2
+n1I=24
+n1O=21
+mI=24
+I1=4
+I2=5
+I3=6
+I4=7
+I5=8
+I6=9
+I7=14
+I8=15
+I9=60
+I10=61
+I11=62
+I12=63
+I13=64
+I14=65
+I15=66
+I16=67
+I17=10
+I18=36
+I19=37
+I20=86
+I21=89
+I22=90
+I23=12
+I24=40
+mO=21
+tO=21
+O1=19
+O2=20
+O3=21
+O4=30
+O5=31
+O6=32
+O7=34
+O8=35
+O9=52
+O10=53
+O11=54
+O12=55
+O13=56
+O14=57
+O15=58
+O16=59
+O17=48
+O18=49
+O19=24
+O20=33
+O21=25
+mP=1
+P1=
+]
+[
+ObjTp=Sm
+H=8
+SmC=13
+PrH=17
+CF=2
+n1I=3
+n1O=2
+Cmn1=single-wave pulse on source-control-override\\This is necessary||1
+Cmn2=to prevent an infinite logic loop with the following ABUFFER. NOTE||1
+Cmn3=that this symbol was not necessary on the X-Gen processors, but||1
+Cmn4=the PRO2 would crash.
+mI=3
+I2=11
+I3=12
+mO=2
+tO=2
+O1=11
+]
+[
+ObjTp=Sm
+H=9
+SmC=32
+PrH=24
+CF=2
+n1I=1
+n1O=1
+Cmn1=set volume to zero on room power off
+mI=1
+I1=39
+mO=1
+tO=1
+O1=41
+mP=1
+P1=1d
+]
+[
+ObjTp=Sm
+H=10
+SmC=46
+PrH=24
+CF=2
+n1I=2
+n1O=1
+Cmn1=set volume to startup level on power on
+mI=2
+I1=135
+I2=40
+mO=1
+tO=1
+O1=41
+]
+[
+ObjTp=Sm
+H=11
+SmC=66
+PrH=24
+CF=2
+n1I=1
+n1O=1
+Cmn1=smooth volume transitions
+mI=1
+I1=41
+mO=1
+tO=1
+O1=33
+mP=1
+P1=2s
+]
+[
+ObjTp=Sm
+H=12
+SmC=540
+PrH=24
+CF=2
+n1I=3
+n1O=1
+mI=3
+I1=89
+I2=90
+mO=1
+tO=1
+O1=33
+mP=4
+P1=5s
+P2=0d
+P3=49000d
+P4=1d
+]
+[
+ObjTp=Sm
+H=13
+SmC=13
+PrH=24
+CF=2
+n1I=3
+n1O=2
+Cmn1=mute on/off
+mI=3
+I2=27
+I3=86
+mO=2
+tO=2
+O1=24
+]
+[
+ObjTp=Sm
+H=15
+SmC=19
+PrH=16
+CF=2
+n1I=18
+n1O=16
+Cmn1=prevent the current source from being reselected\\This was added||1
+Cmn2=in v2.1.1 due a change in ABUFFER behavior introduced in the 2-series||1
+Cmn3=control systems. This behavior will be modified in a operating system||1
+Cmn4=version after 1.004
+mI=18
+I1=37
+I3=4
+I4=5
+I5=6
+I6=7
+I7=8
+I8=9
+I9=14
+I10=15
+I11=60
+I12=61
+I13=62
+I14=63
+I15=64
+I16=65
+I17=66
+I18=67
+mO=16
+tO=16
+O1=13
+O2=16
+O3=17
+O4=18
+O5=26
+O6=42
+O7=43
+O8=45
+O9=22
+O10=23
+O11=28
+O12=44
+O13=46
+O14=47
+O15=50
+O16=51
+]
+[
+ObjTp=Sm
+H=16
+SmC=156
+PrH=4
+CF=2
+Cmn1=source selection
+mC=6
+C1=25
+C2=33
+C3=31
+C4=29
+C5=17
+C6=15
+]
+[
+ObjTp=Sm
+H=17
+SmC=156
+PrH=16
+CF=2
+Cmn1=control override
+mC=2
+C1=8
+C2=21
+]
+[
+ObjTp=Sm
+H=18
+SmC=156
+PrH=4
+CF=2
+Cmn1=power on/off
+mC=4
+C1=19
+C2=20
+C3=95
+C4=79
+]
+[
+ObjTp=Sm
+H=19
+SmC=13
+PrH=18
+CF=2
+n1I=3
+n1O=2
+Cmn1=room power on/off
+mI=3
+I1=38
+I2=37
+I3=10
+mO=2
+tO=2
+O1=48
+O2=49
+]
+[
+ObjTp=Sm
+H=20
+SmC=3
+PrH=18
+CF=2
+n1I=17
+n1O=1
+Cmn1=when to turn room on
+mI=17
+I1=36
+I2=4
+I3=5
+I4=6
+I5=7
+I6=8
+I7=9
+I8=14
+I9=15
+I10=60
+I11=61
+I12=62
+I13=63
+I14=64
+I15=65
+I16=66
+I17=67
+mO=1
+tO=1
+O1=38
+]
+[
+ObjTp=Sm
+H=21
+SmC=46
+PrH=17
+CF=2
+n1I=2
+n1O=1
+Cmn1=resend source value on control override
+mI=2
+I1=11
+I2=25
+mO=1
+tO=1
+O1=25
+]
+[
+ObjTp=Sm
+H=24
+SmC=156
+PrH=4
+CF=2
+Cmn1=volume
+mC=6
+C1=10
+C2=11
+C3=9
+C4=26
+C5=13
+C6=12
+]
+[
+ObjTp=Sm
+H=25
+SmC=46
+PrH=16
+CF=2
+n1I=2
+n1O=1
+Cmn1=pass room input to switcher
+mI=2
+I1=48
+I2=29
+mO=1
+tO=1
+O1=25
+]
+[
+ObjTp=Sm
+H=26
+SmC=3
+PrH=24
+CF=2
+n1I=4
+n1O=1
+Cmn1=when to unmute volume
+mI=4
+I1=89
+I2=90
+I3=37
+I4=38
+mO=1
+tO=1
+O1=27
+]
+[
+ObjTp=Sm
+H=29
+SmC=38
+PrH=16
+CF=2
+n1I=2
+n1O=16
+Cmn1=source selection feedback
+mI=2
+I1=25
+I2=48
+mO=16
+tO=16
+O1=19
+O2=20
+O3=21
+O4=30
+O5=31
+O6=32
+O7=34
+O8=35
+O9=52
+O10=53
+O11=54
+O12=55
+O13=56
+O14=57
+O15=58
+O16=59
+mP=16
+P1=1d
+P2=2d
+P3=3d
+P4=4d
+P5=5d
+P6=6d
+P7=7d
+P8=8d
+P9=9d
+P10=10d
+P11=11d
+P12=12d
+P13=13d
+P14=14d
+P15=15d
+P16=16d
+]
+[
+ObjTp=Sm
+H=31
+SmC=32
+PrH=16
+CF=2
+n1I=1
+n1O=1
+Cmn1=set source analog to zero on room off
+mI=1
+I1=49
+mO=1
+tO=1
+O1=25
+mP=1
+P1=0d
+]
+[
+ObjTp=Sm
+H=33
+SmC=32
+PrH=16
+CF=2
+n1I=17
+n1O=1
+Cmn1=set source analog for direct selection\\This symbol also sets the||1
+Cmn2="room_input" to 1 on startup (achieved via the '1' signal on the||1
+Cmn3=input list). This allows the room to turn on properly when the system||1
+Cmn4=is rebooted.
+mI=17
+I1=13
+I2=16
+I3=17
+I4=18
+I5=26
+I6=42
+I7=43
+I8=45
+I9=22
+I10=23
+I11=28
+I12=44
+I13=46
+I14=47
+I15=50
+I16=51
+I17=2
+mO=1
+tO=1
+O1=29
+mP=17
+P1=1d
+P2=2d
+P3=3d
+P4=4d
+P5=5d
+P6=6d
+P7=7d
+P8=8d
+P9=9d
+P10=10d
+P11=11d
+P12=12d
+P13=13d
+P14=14d
+P15=15d
+P16=16d
+P17=1d
+]
+[
+ObjTp=Sm
+H=79
+SmC=13
+PrH=18
+CF=2
+n1I=3
+n1O=2
+Cmn1=pulse power off
+mI=3
+I2=39
+I3=49
+mO=2
+tO=2
+O1=39
+]
+[
+ObjTp=Sm
+H=95
+SmC=13
+PrH=18
+CF=2
+n1I=3
+n1O=2
+Cmn1=pulse power on
+mI=3
+I2=135
+I3=48
+mO=2
+tO=2
+O1=135
+]
+[
+ObjTp=Sg
+H=4
+Nm=source_1_select
+]
+[
+ObjTp=Sg
+H=5
+Nm=source_2_select
+]
+[
+ObjTp=Sg
+H=6
+Nm=source_3_select
+]
+[
+ObjTp=Sg
+H=7
+Nm=source_4_select
+]
+[
+ObjTp=Sg
+H=8
+Nm=source_5_select
+]
+[
+ObjTp=Sg
+H=9
+Nm=source_6_select
+]
+[
+ObjTp=Sg
+H=10
+Nm=room_on/off
+]
+[
+ObjTp=Sg
+H=11
+Nm=source_control_override_swp
+]
+[
+ObjTp=Sg
+H=12
+Nm=source_control_override
+]
+[
+ObjTp=Sg
+H=13
+Nm=source_1_select_i
+]
+[
+ObjTp=Sg
+H=14
+Nm=source_7_select
+]
+[
+ObjTp=Sg
+H=15
+Nm=source_8_select
+]
+[
+ObjTp=Sg
+H=16
+Nm=source_2_select_i
+]
+[
+ObjTp=Sg
+H=17
+Nm=source_3_select_i
+]
+[
+ObjTp=Sg
+H=18
+Nm=source_4_select_i
+]
+[
+ObjTp=Sg
+H=19
+Nm=source_1_select_fb
+]
+[
+ObjTp=Sg
+H=20
+Nm=source_2_select_fb
+]
+[
+ObjTp=Sg
+H=21
+Nm=source_3_select_fb
+]
+[
+ObjTp=Sg
+H=22
+Nm=source_9_select_i
+]
+[
+ObjTp=Sg
+H=23
+Nm=source_10_select_i
+]
+[
+ObjTp=Sg
+H=24
+Nm=mute_fb
+]
+[
+ObjTp=Sg
+H=25
+Nm=switcher_input
+SgTp=2
+]
+[
+ObjTp=Sg
+H=26
+Nm=source_5_select_i
+]
+[
+ObjTp=Sg
+H=27
+Nm=volume_unmute
+]
+[
+ObjTp=Sg
+H=28
+Nm=source_11_select_i
+]
+[
+ObjTp=Sg
+H=29
+Nm=room_input
+SgTp=2
+]
+[
+ObjTp=Sg
+H=30
+Nm=source_4_select_fb
+]
+[
+ObjTp=Sg
+H=31
+Nm=source_5_select_fb
+]
+[
+ObjTp=Sg
+H=32
+Nm=source_6_select_fb
+]
+[
+ObjTp=Sg
+H=33
+Nm=volume_level
+SgTp=2
+]
+[
+ObjTp=Sg
+H=34
+Nm=source_7_select_fb
+]
+[
+ObjTp=Sg
+H=35
+Nm=source_8_select_fb
+]
+[
+ObjTp=Sg
+H=36
+Nm=room_on
+]
+[
+ObjTp=Sg
+H=37
+Nm=room_off
+]
+[
+ObjTp=Sg
+H=38
+Nm=source_select
+]
+[
+ObjTp=Sg
+H=39
+Nm=room_off_swp
+]
+[
+ObjTp=Sg
+H=40
+Nm=startup_volume_level
+SgTp=2
+]
+[
+ObjTp=Sg
+H=41
+Nm=volume_level_raw
+SgTp=2
+]
+[
+ObjTp=Sg
+H=42
+Nm=source_6_select_i
+]
+[
+ObjTp=Sg
+H=43
+Nm=source_7_select_i
+]
+[
+ObjTp=Sg
+H=44
+Nm=source_12_select_i
+]
+[
+ObjTp=Sg
+H=45
+Nm=source_8_select_i
+]
+[
+ObjTp=Sg
+H=46
+Nm=source_13_select_i
+]
+[
+ObjTp=Sg
+H=47
+Nm=source_14_select_i
+]
+[
+ObjTp=Sg
+H=48
+Nm=room_on_fb
+]
+[
+ObjTp=Sg
+H=49
+Nm=room_off_fb
+]
+[
+ObjTp=Sg
+H=50
+Nm=source_15_select_i
+]
+[
+ObjTp=Sg
+H=51
+Nm=source_16_select_i
+]
+[
+ObjTp=Sg
+H=52
+Nm=source_9_select_fb
+]
+[
+ObjTp=Sg
+H=53
+Nm=source_10_select_fb
+]
+[
+ObjTp=Sg
+H=54
+Nm=source_11_select_fb
+]
+[
+ObjTp=Sg
+H=55
+Nm=source_12_select_fb
+]
+[
+ObjTp=Sg
+H=56
+Nm=source_13_select_fb
+]
+[
+ObjTp=Sg
+H=57
+Nm=source_14_select_fb
+]
+[
+ObjTp=Sg
+H=58
+Nm=source_15_select_fb
+]
+[
+ObjTp=Sg
+H=59
+Nm=source_16_select_fb
+]
+[
+ObjTp=Sg
+H=60
+Nm=source_9_select
+]
+[
+ObjTp=Sg
+H=61
+Nm=source_10_select
+]
+[
+ObjTp=Sg
+H=62
+Nm=source_11_select
+]
+[
+ObjTp=Sg
+H=63
+Nm=source_12_select
+]
+[
+ObjTp=Sg
+H=64
+Nm=source_13_select
+]
+[
+ObjTp=Sg
+H=65
+Nm=source_14_select
+]
+[
+ObjTp=Sg
+H=66
+Nm=source_15_select
+]
+[
+ObjTp=Sg
+H=67
+Nm=source_16_select
+]
+[
+ObjTp=Sg
+H=86
+Nm=mute
+]
+[
+ObjTp=Sg
+H=89
+Nm=vol_up
+]
+[
+ObjTp=Sg
+H=90
+Nm=vol_down
+]
+[
+ObjTp=Sg
+H=135
+Nm=room_on_swp
+]

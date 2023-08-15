@@ -1,0 +1,27 @@
+<Device Model="CP3N">
+   <Network Type="Cresnet" Id="01">
+      <Device Model="ST-IO" DeviceId="14"/>
+   </Network>
+   <Network Type="Ethernet" Id="02">
+      <Device Model="C2N-AMP-6X100" DeviceId="09" Name="C2N-AMP z1-z6 .52"/>
+      <Device Model="C2N-AMP-6X100" DeviceId="0A" Name="C2N-AMP z7-z12 .53"/>
+      <Device Model="CEN-GWEXER" DeviceId="0F" Name="Family GWEXER .55">
+         <Network Type="RF">
+            <Device Model="HR-150,HRI-150" DeviceId="03" Name="HR-150 Family"/>
+            <Device Model="HR-150,HRI-150" DeviceId="04" Name="HR-150 Media"/>
+         </Network>
+      </Device>
+      <Device Model="CEN-GWEXER" DeviceId="10" Name="MBR GWEXER .56">
+         <Network Type="RF">
+            <Device Model="HR-150,HRI-150" DeviceId="05" Name="HR-150 Guest"/>
+            <Device Model="HR-150,HRI-150" DeviceId="06" Name="HR-150 MBR"/>
+         </Network>
+      </Device>
+      <Device Model="TSW-1060" DeviceId="11" Name="TSW01 Family .60"/>
+      <Device Model="TSW-1060" DeviceId="12" Name="TSW02 MBR"/>
+      <Device Model="TSW-1060" DeviceId="13" Name="TSW03 MBATH"/>
+      <Device Model="Crestron_App" DeviceId="15" Name="ipad01"/>
+      <Device Model="Crestron_App" DeviceId="16" Name="iphone01"/>
+      <Device Model="Crestron_App" DeviceId="17" Name="iphone02"/>
+   </Network>
+</Device>

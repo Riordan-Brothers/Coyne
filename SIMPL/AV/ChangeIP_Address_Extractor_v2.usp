@@ -1,0 +1,69 @@
+/*******************************************************************************************
+Copyright (C) 2009-2011 ControlWorks Consulting, LLC All Rights Reserved – Use Subject to License.
+US Government Restricted Rights. Use, duplication or disclosure by the Government is subject to restrictions set forth in subparagraphs (a)-(d) of FAR 52.227-19. 
+SIMPL+ Module Information
+ *******************************************************************************************/
+/*
+Dealer Name:ControlWorks Consulting, LLC
+System Name:
+System Number:
+Programmer:CMR
+Revision History:
+	v1 -- caleb@controlworks.com
+			-initial release
+	v2 -- gary@controlworks.com
+			-compiled and tested for series3 compatibility
+*/
+
+#SYMBOL_NAME "ChangeIP_Address_Extractor_v2"
+
+#CATEGORY "4" // Device Interface
+#DEFAULT_NONVOLATILE
+
+#ENABLE_STACK_CHECKING
+
+// DIGITAL_INPUT 
+// ANALOG_INPUT 
+// STRING_INPUT 
+BUFFER_INPUT changeip_input_rx$[2000]; 
+
+// DIGITAL_OUTPUT 
+// ANALOG_OUTPUT 
+STRING_OUTPUT ip_address$; 
+
+
+
+INTEGER gi_busy;
+STRING gs_changeip_temp$[500];
+STRING gs_ipaddress$[20];
+STRING junk$[500];
+
+
+CHANGE changeip_input_rx$
+{
+	if(!gi_busy)
+	{
+    gi_busy = 1;
+    gs_changeip_temp$ = gather("-->",changeip_input_rx$); 
+    
+	if(find("IPADDR=",gs_changeip_temp$))
+		{
+			junk$ = remove("IPADDR=",gs_changeip_temp$);
+			gs_ipaddress$ = left(gs_changeip_temp$,len(gs_changeip_temp$)-3);
+				
+			ip_address$=gs_ipaddress$;
+			clearbuffer(changeip_input_rx$);
+        }
+	gi_busy=0;
+	}
+}
+
+Function Main()
+{
+	clearbuffer(changeip_input_rx$);
+	if(len(gs_ipaddress$))
+		ip_address$ = gs_ipaddress$;
+	gi_busy=0;
+}
+
+

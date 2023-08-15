@@ -1,0 +1,26 @@
+#define_constant MAX_OUTPUTS  200
+
+string_input IR_TX[MAX_OUTPUTS][500];
+string_input IR_RX[MAX_OUTPUTS][500];
+
+string_output IR;
+
+change IR_TX
+{
+  integer i;
+  String cmd[500];
+
+  i = getlastmodifiedarrayindex();
+  makestring( CMD, "IR_TX %d %s;", i, IR_TX[i] ) ;
+  IR = cmd;
+}
+change IR_RX
+{
+  integer i;
+  String cmd[500];
+
+  i = getlastmodifiedarrayindex();
+  makestring( CMD, "IR_RX %d %s;", i, IR_RX[i] ) ;
+  IR = cmd;
+}
+
