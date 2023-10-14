@@ -1,0 +1,46 @@
+Crosspoint listing for C:\Crestron\Archived Projects\Coyne\SIMPL\Lighting\Coyne CP3n Lights v1.0.6.SMW
+
+Note:  Crosspoint symbols with EquipID or ControlID set to 0d are not routeable.
+
+Equipment Crosspoint Routing.                                                                       EquipID
+===========================================================================================================
+S-6.3.1.1                                                                                           257
+S-6.3.2.1                                                                                           258
+S-6.3.3.1                                                                                           259
+S-6.3.4.1                                                                                           260
+S-6.3.5.1                                                                                           261
+S-6.3.6.1                                                                                           262
+S-6.3.7.1                                                                                           263
+S-6.3.8.1                                                                                           264
+S-6.3.9.1                                                                                           265
+S-6.3.10.1                                                                                          272
+S-6.3.11.1                                                                                          273
+S-6.3.12.1                                                                                          274
+S-6.3.13.1                                                                                          275
+S-6.3.14.1                                                                                          276
+S-6.3.15.1                                                                                          277
+S-6.3.16.1                                                                                          278
+S-6.3.17.1                                                                                          279
+S-6.3.18.1                                                                                          280
+S-6.3.25.1                                                                                          281
+S-6.3.19.1                                                                                          288
+S-6.3.20.1                                                                                          289
+S-6.3.21.1                                                                                          290
+S-6.3.22.1                                                                                          291
+S-6.3.23.1                                                                                          292
+S-6.3.24.1                                                                                          293
+
+Control Crosspoint Routing.                                                                         ControlID
+=============================================================================================================
+S-6.2.3.11.1                                                                                        80
+S-6.2.4.4.1                                                                                         81
+S-6.2.5.4.1                                                                                         82
+S-6.2.6.4.1                                                                                         83
+S-6.2.7.4.1                                                                                         84
+S-6.2.8.4.1                                                                                         85
+S-6.2.9.4.1                                                                                         86
+S-2.1 in macro S-6.2.3.12.1 (Module File C:\Crestron\Archived Projects\Coyne\SIMPL\Lightin          336
+g\RBI PC Control v6.umc)                                                                            
+S-1 in macro S-6.2.3.13.1 (Module File C:\Crestron\Archived Projects\Coyne\SIMPL\Lighting\          592
+RBI Color Picker Helper Panel v1.umc)                                                               
+

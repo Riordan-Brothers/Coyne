@@ -1,0 +1,68 @@
+<Device Model="CP3N">
+   <Network Type="Cresnet" Id="01"/>
+   <Network Type="Ethernet" Id="02">
+      <Device Model="CEN-GWEXER" DeviceId="0F" Name="Family GWEXER .55">
+         <Network Type="RF">
+            <Device Model="CLW-DIMEX-P" DeviceId="05" Name="basement storage - hall"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="06" Name="dining hutch - outlet"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="07" Name="family cabinet - puck lts"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="08" Name="family under cab - undercab lts"/>
+         </Network>
+      </Device>
+      <Device Model="CEN-GWEXER" DeviceId="10" Name="MBR GWEXER .56">
+         <Network Type="RF">
+            <Device Model="CLW-DIMEX-P" DeviceId="03" Name="3rd floor bath - shower"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="04" Name="3rd floor closet - vanity"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="07" Name="3rd floor closet - main rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="08" Name="4th floor bath - fan"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="09" Name="4th floor bath - recessed"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0A" Name="charlie's bedroom - dummy"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0B" Name="charlie's closet - outlet01"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0C" Name="4th floor bath - sconces *in charlie's closet"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0D" Name="4th floor bath vanity *in charlie's closet"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0E" Name="charlie's closet - outlet02"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="0F" Name="charlie's closet - sconces"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="10" Name="charlie's closet - recessed"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="11" Name="4th floor bath shower *in charlie's closet"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="12" Name="guest closet - hanging"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="13" Name="guest closet - bookcase"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="14" Name="guest closet - wall rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="15" Name="guest bed - ctr rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="16" Name="guest bed - 4 rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="17" Name="2nd floor hall"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="18" Name="guest bed - bed"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="19" Name="guest bed - nook"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1A" Name="3rd floor hall - rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1B" Name="2nd floor hall - stairs between 2 and 3"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1C" Name="jack's closet - desk"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1D" Name="jack's room - center *near closet door"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1E" Name="jack's closet - closet wall"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="1F" Name="jack's closet - fireplace"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="20" Name=" 4th floor hall"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="21" Name="jack's closet - bookcase"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="22" Name="jack's closet - front rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="23" Name="mbath doorway - sconces"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="24" Name="mbath - shower"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="25" Name="mbath - rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="26" Name="mbath - cove"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="27" Name="mbath - toilet"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="28" Name="mbath - vanity"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="29" Name="mbed her side - 4 rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2A" Name="mbed his side - 2 rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2B" Name="mbed - makeup table"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2C" Name="mbed walkin - closet"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2D" Name="mbed makeup hall"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2E" Name="mbed closet top - sconces"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="2F" Name="matt's room - rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="30" Name="matt's room - ext"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="31" Name="matt's closet - sconces"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="32" Name="MBR - armoire"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="33" Name="3rd floor bath - heater"/>
+            <Device Model="CLF-LDIMUEX" DeviceId="34" Name="4th floor bath - heater"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="35" Name="matt's closet - window rec"/>
+            <Device Model="CLW-DIMEX-P" DeviceId="36" Name="matt's closet - deck step"/>
+         </Network>
+      </Device>
+      <Device Model="Core3 UI XPanel" DeviceId="F6" Name="XPanel 2.0 Smart Graphics"/>
+   </Network>
+</Device>
